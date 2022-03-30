@@ -15,15 +15,15 @@
             android:id="@+id/textViewCity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:text="Москва"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
+            android:text="Москва"
+            android:textColor="@color/black"
+            android:textSize="18sp"
             app:drawableRightCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
 
@@ -31,10 +31,10 @@
             android:id="@+id/imageQRCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="16dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
@@ -56,16 +56,14 @@
                 android:layout_height="match_parent"
                 app:layout_scrollFlags="scroll">
 
-                <!--TODO create image slider-->
 
-                <ImageView
-                    android:id="@+id/backdrop"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewAdvertising"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:layout_margin="16dp"
-                    app:srcCompat="@color/teal_200"
-                    app:layout_collapseMode="pin" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginVertical="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
