@@ -1,8 +1,9 @@
-package com.osenov.foodtest.ui.menu
+package com.osenov.foodtest.ui.menu.advertising
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.osenov.foodtest.R
 
 class AdvertisingItemDecoration(private val space: Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
@@ -13,7 +14,9 @@ class AdvertisingItemDecoration(private val space: Int) : RecyclerView.ItemDecor
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        if (parent.getChildAdapterPosition(view) == 0) outRect.left = space
-        outRect.right = space
+        val position = parent.getChildAdapterPosition(view);
+        if (position != state.itemCount - 1) {
+            outRect.right = space
+        }
     }
 }

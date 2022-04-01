@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="advertising_recycler_offset">16dp</dimen>
+
+    <dimen name="bottom_offset_recycler_product">30dp</dimen>
+
+    <dimen name="divider_item_decoration_height">1dp</dimen>
 </resources>

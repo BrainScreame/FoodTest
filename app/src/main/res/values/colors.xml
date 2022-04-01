@@ -7,4 +7,19 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="light_gray">#DADADA</color>
+    <color name="gray">#AAAAAD</color>
+    <color name="red_200">#FD3A69</color>
+    <color name="red_100">#f3CCD6</color>
+    <color name="gray_50">#FBFBFB</color>
+    <color name="gray_70">#F8F8F8</color>
+    <color name="gray_200">#C3C4C9</color>
+
+    <color name="divider_color">#F3F5F9</color>
+
+    <array name="divider_color">
+        <item>@color/divider_color</item>
+        <item>@color/divider_color</item>
+    </array>
 </resources>

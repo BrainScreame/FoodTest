@@ -4,4 +4,8 @@
     <string name="menu_title">Меню</string>
     <string name="profile_title">Профиль</string>
     <string name="basket_title">Корзина</string>
+    <string name="city_name">Москва</string>
+    <string name="basket_fragment">Basket Fragment</string>
+    <string name="profile_fragment">Profile Fragment</string>
+    <string name="button_retry">Повторить попытку</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.osenov.foodtest.ui.menu
+package com.osenov.foodtest.ui.menu.advertising
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

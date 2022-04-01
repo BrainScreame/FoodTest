@@ -1,4 +1,4 @@
-package com.osenov.foodtest.ui.menu
+package com.osenov.foodtest.ui.menu.advertising
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
