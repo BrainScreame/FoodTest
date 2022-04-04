@@ -13,13 +13,18 @@ class ProductViewHolder(private val binding: ItemProductBinding) :
         with(binding) {
             textProductName.text = product.name
             textProductDescription.text = product.description
-            if(product.category == "Пицца") {
-                buttonProductPrice.text = "от ${product.price} р"
+
+            //can’t do this, but due to the lack of a good api, I left it like this
+            if (product.category ==  root.resources.getString(R.string.product_category_for_price)) {
+                buttonProductPrice.text =
+                    root.resources.getString(R.string.product_price_from, product.price)
             } else {
-                buttonProductPrice.text = "${product.price} р"
+                buttonProductPrice.text =
+                    root.resources.getString(R.string.product_price, product.price)
             }
 
-            Glide.with(binding.root).load(product.imageUrl).placeholder(R.drawable.menu_placeholder).centerCrop()
+            Glide.with(binding.root).load(product.imageUrl).placeholder(R.drawable.menu_placeholder)
+                .centerCrop()
                 .into(binding.imageProduct)
         }
     }

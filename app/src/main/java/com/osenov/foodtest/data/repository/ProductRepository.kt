@@ -19,7 +19,6 @@ class ProductRepository @Inject constructor(
     suspend fun getProducts(): Flow<Result<List<Product>>> =
         flow {
             try {
-                emit(Result.loading<ArrayList<Product>>())
                 val response = productService.fetchProducts()
                 if (response.isSuccessful) {
                     val products = response.body() ?: listOf()
@@ -27,16 +26,11 @@ class ProductRepository @Inject constructor(
                     foodDao.deleteProducts()
                     foodDao.insertProducts(products.map { it.toProductEntity() })
                 } else {
-                    val products = foodDao.getProducts().map { it.toProduct() }
-                    if(products.isEmpty()){
-                        emit(Result.error<ArrayList<Product>>(response.message(), null))
-                    } else {
-                        emit(Result.success(products))
-                    }
+                    emit(Result.error<ArrayList<Product>>(response.message(), null))
                 }
             } catch (e: Exception) {
                 val products = foodDao.getProducts().map { it.toProduct() }
-                if(products.isEmpty()){
+                if (products.isEmpty()) {
                     emit(Result.error<ArrayList<Product>>(e.message.toString(), null))
                 } else {
                     emit(Result.success(products))

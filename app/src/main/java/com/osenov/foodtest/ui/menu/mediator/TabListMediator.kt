@@ -10,8 +10,8 @@ class TabListMediator(
     private val mRecyclerView: RecyclerView,
     private val mTabLayout: TabLayout,
     private val appBar: AppBarLayout,
-    private var mIndices: List<Int>
 ) {
+    private var mIndices = listOf<Int>()
 
     private var mRecyclerState = RecyclerView.SCROLL_STATE_IDLE
     private var mTabClickFlag = false
@@ -26,7 +26,10 @@ class TabListMediator(
     private var tabViewCompositeClickListener: TabViewCompositeClickListener =
         TabViewCompositeClickListener(mTabLayout)
 
-    fun attach() {
+
+    fun attach(indices: List<Int>) {
+        detach()
+        mIndices = indices
         tabViewCompositeClickListener.addListener { _, _ -> mTabClickFlag = true }
         tabViewCompositeClickListener.build()
         mTabLayout.addOnTabSelectedListener(onTabSelectedListener)

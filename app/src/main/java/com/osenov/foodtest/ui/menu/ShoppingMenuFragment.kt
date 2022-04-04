@@ -23,6 +23,11 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.osenov.foodtest.util.Result
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DiffUtil
+import com.osenov.foodtest.ui.menu.product.ProductDiffUtil
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -64,7 +69,9 @@ class ShoppingMenuFragment : Fragment() {
         itemDecoration
     }
 
-    private var tabListMediator: TabListMediator? = null
+    private val tabListMediator: TabListMediator by lazy(LazyThreadSafetyMode.NONE) {
+        TabListMediator(binding.recyclerProducts, binding.tabLayoutCategory, binding.appBarProduct)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,10 +84,11 @@ class ShoppingMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getProducts()
+        setUI()
         addClickListeners()
         subscribeViewModel()
         showAdvertising(viewModel.getAdvertising())
-
 
     }
 
@@ -95,43 +103,49 @@ class ShoppingMenuFragment : Fragment() {
     }
 
     private fun subscribeViewModel() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.getProducts().collect{
-                when (it.status) {
-                    Result.Status.LOADING -> showStatusLoad()
-                    Result.Status.SUCCESS -> showMenu(it.data!!)
-                    Result.Status.ERROR -> showStatusError(it.message)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.productsUiState.collect { uiState ->
+                    when (uiState) {
+                        is ProductsUiState.Loading -> showStatusLoad()
+                        is ProductsUiState.Success -> {
+                            showMenu(uiState.products)
+                        }
+                        is ProductsUiState.Error -> {
+                            showStatusError(uiState.message)
+                        }
+                    }
                 }
             }
         }
+    }
 
+    private fun setUI() {
+        binding.recyclerProducts.adapter = productAdapter
+        binding.recyclerViewAdvertising.adapter = advertisingAdapter
     }
 
     private fun showStatusLoad() {
-        with(binding){
+        with(binding) {
             coordinatorLayoutProduct.isVisible = false
             exceptionLayoutMenu.root.isVisible = false
             progressBarMenu.isVisible = true
         }
     }
 
-    private fun showMenu(products : List<Product>) {
-        with(binding){
+    private fun showMenu(products: List<Product>) {
+        with(binding) {
             progressBarMenu.isVisible = false
             exceptionLayoutMenu.root.isVisible = false
             coordinatorLayoutProduct.isVisible = true
 
             showProducts(products)
-            showCategories(viewModel.getCategories(products))
-            tabListMediator = TabListMediator(
-                binding.recyclerProducts,
-                binding.tabLayoutCategory,
-                binding.appBarProduct,
-                viewModel.getCategoryPositions(products)
-            )
-            tabListMediator?.attach()
-        }
+            if (binding.tabLayoutCategory.tabCount == 0) {
+                showCategories(viewModel.getCategories(products))
             }
+            tabListMediator.attach(viewModel.getCategoryPositions(products))
+        }
+    }
 
     private fun showStatusError(message: String?) {
         with(binding) {
@@ -140,14 +154,13 @@ class ShoppingMenuFragment : Fragment() {
             exceptionLayoutMenu.root.isVisible = true
 
             exceptionLayoutMenu.errorMessage.text = message
-            exceptionLayoutMenu.retry.setOnClickListener{
-                subscribeViewModel()
+            exceptionLayoutMenu.retry.setOnClickListener {
+                viewModel.getProducts()
             }
         }
     }
 
     private fun showCategories(categories: List<String>) {
-        binding.tabLayoutCategory.removeAllTabs()
         for (i in categories.indices) {
             val textView = LayoutInflater.from(requireContext())
                 .inflate(R.layout.item_tab_category, null) as TextView
@@ -160,22 +173,26 @@ class ShoppingMenuFragment : Fragment() {
     }
 
     private fun showProducts(data: List<Product>) {
-        binding.recyclerProducts.adapter = productAdapter
         binding.recyclerProducts.addItemDecoration(productItemDecoration)
+        val diffResult = DiffUtil.calculateDiff(ProductDiffUtil(productAdapter.getData(), data))
         productAdapter.setData(data)
+        diffResult.dispatchUpdatesTo(productAdapter)
     }
 
     private fun showAdvertising(advertising: List<Advertising>) {
-        binding.recyclerViewAdvertising.adapter = advertisingAdapter
         binding.recyclerViewAdvertising.addItemDecoration(advertisingItemDecoration)
         advertisingAdapter.setData(advertising)
     }
 
     override fun onPause() {
         super.onPause()
-        tabListMediator?.detach()
         binding.recyclerProducts.removeItemDecoration(productItemDecoration)
         binding.recyclerViewAdvertising.removeItemDecoration(advertisingItemDecoration)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        tabListMediator.detach()
     }
 
 

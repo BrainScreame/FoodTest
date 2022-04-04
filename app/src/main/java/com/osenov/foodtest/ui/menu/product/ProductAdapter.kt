@@ -2,20 +2,23 @@ package com.osenov.foodtest.ui.menu.product
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.osenov.foodtest.databinding.ItemProductBinding
 import com.osenov.foodtest.domain.entity.Product
 
-class ProductAdapter(private val onItemClicked: (Product) -> Unit) : RecyclerView.Adapter<ProductViewHolder>() {
+class ProductAdapter(private val onItemClicked: (Product) -> Unit) :
+    RecyclerView.Adapter<ProductViewHolder>() {
 
     private var products = ArrayList<Product>()
 
     fun setData(data: List<Product>) {
         products.clear()
-        this.products.addAll(data)
-        notifyDataSetChanged()
+        products.addAll(data)
     }
 
+    fun getData(): ArrayList<Product> = products
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder(

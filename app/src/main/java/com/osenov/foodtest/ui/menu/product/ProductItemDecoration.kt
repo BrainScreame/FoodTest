@@ -17,9 +17,7 @@ class ProductItemDecoration(private val context : Context) :
         state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view);
-        if (position == state.itemCount - 1) {
-            outRect.bottom = context.resources.getDimensionPixelSize(R.dimen.bottom_offset_recycler_product)
-        } else {
+        if (position != state.itemCount - 1) {
             super.getItemOffsets(outRect, view, parent, state)
         }
     }

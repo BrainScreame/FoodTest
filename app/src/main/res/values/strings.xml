@@ -8,4 +8,7 @@
     <string name="basket_fragment">Basket Fragment</string>
     <string name="profile_fragment">Profile Fragment</string>
     <string name="button_retry">Повторить попытку</string>
+    <string name="product_price_from">от %1$d р</string>
+    <string name="product_price">%1$d р</string>
+    <string name="product_category_for_price">Пицца</string>
 </resources>
