@@ -2,10 +2,12 @@
 <br>
 <img src="/preview/screen.png" width="336" align="right" hspace="20">
 
+## [Detailed task condition](https://docs.google.com/document/d/1DGTNxuDqqxOytIUBvCwtJ8IPv-LY9K6DqDRno2DMIK0/edit#)
+
 ## Tech stack & Open-source libraries
 - Minimum SDK level 21
 - [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous.
-- [Dagger](https://dagger.dev/dev-guide/) for dependency injection.
+- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) for dependency injection.
 - Jetpack
   - ViewModel
   - Navigation
@@ -17,6 +19,6 @@
 - [Glide](https://github.com/bumptech/glide) - Loading images from network.
 - [Material-Components](https://github.com/material-components/material-components-android) - Material design components for building ripple animation, and CardView.
 
-## [Detailed task condition](https://docs.google.com/document/d/1DGTNxuDqqxOytIUBvCwtJ8IPv-LY9K6DqDRno2DMIK0/edit#)
-
+#### Synchronization of TabLayout and RecyclerView
+[TabListMediator](https://github.com/BrainScreame/FoodTest/blob/master/app/src/main/java/com/osenov/foodtest/ui/menu/mediator/TabListMediator.kt) for synchronization of TabLayout and RecyclerView 
 
